@@ -1,23 +1,9 @@
-'use client';
+import { permanentRedirect } from 'next/navigation';
+import { getRedirectUrl } from '../api/shorturl/[slug]/route';
 
-import { useRouter } from 'next/navigation';
-
-const SlugPage = ({ params }: { params: { slug: string } }) => {
-  const router = useRouter();
+const SlugPage = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
-
-  fetch(`api/shorturl/${slug}`)
-    .then((response) => {
-      if (response.status === 308) {
-        return response.json();
-      }
-    })
-    .then((json) => {
-      router.push(json.url);
-    })
-    .catch((_e) => router.push('/'));
-
-  return null;
+  permanentRedirect(getRedirectUrl(slug));
 };
 
 export default SlugPage;
