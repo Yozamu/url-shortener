@@ -1,17 +1,23 @@
 'use client';
+import { useShrinkerStore } from '@/store/shrinker';
 import { useState } from 'react';
 
 const ShrinkerForm = () => {
   const [inputUrl, setInputUrl] = useState('');
+  const { setMessage, setShortUrl } = useShrinkerStore();
 
   const handleButtonClick = () => {
     fetch('/api/shorturl', { body: JSON.stringify({ url: inputUrl }), method: 'POST' })
       .then((res) => {
-        if (res.status === 200) console.log('OK');
-        else console.log('KO');
+        if (res.status === 400) setMessage('error', "L'URL saisie est invalide");
         return res.json();
       })
-      .then((json) => console.log(json));
+      .then((json) => {
+        if (json.shortUrl) {
+          setShortUrl(json.shortUrl);
+          setMessage('success', 'Votre lien raccourci : ');
+        }
+      });
   };
 
   return (

@@ -1,10 +1,13 @@
 {
-  "currentUrl": "F",
+  "currentUrl": "I",
   "urls": {
     "A": "http://www.google.fr",
     "B": "http://www.google.com",
     "C": "http://www.google.es",
     "D": "http://www.google.nl",
-    "E": "http://www.google.uk"
+    "E": "http://www.google.uk",
+    "F": "http://test.com",
+    "G": "http://foo.com",
+    "H": "http://bar.com"
   }
 }
