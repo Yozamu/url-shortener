@@ -19,7 +19,7 @@ const config: Config = {
         },
         primary: {
           main: '#f9fc3a',
-          light: '#fafc60',
+          light: '#fffa94',
         },
         success: {
           background: '#c8e6c9',
