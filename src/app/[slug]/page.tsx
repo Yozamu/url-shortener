@@ -8,7 +8,6 @@ const SlugPage = ({ params }: { params: { slug: string } }) => {
 
   fetch(`api/shorturl/${slug}`)
     .then((response) => {
-      console.log(response);
       if (response.status === 308) {
         return response.json();
       }

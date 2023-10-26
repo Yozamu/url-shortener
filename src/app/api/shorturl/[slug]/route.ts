@@ -8,7 +8,6 @@ export async function GET(_request: Request, { params }: { params: { slug: strin
   const jsonData = JSON.parse(data);
   const originalUrl = jsonData.urls[slug];
   const redirectUrl = originalUrl || '/';
-  // return Response.redirect(redirectUrl, 308);
   return new Response(JSON.stringify({ url: redirectUrl }), {
     status: 308,
   });
