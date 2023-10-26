@@ -1,5 +1,5 @@
 {
-  "currentUrl": "I",
+  "currentUrl": "J",
   "urls": {
     "A": "http://www.google.fr",
     "B": "http://www.google.com",
@@ -8,6 +8,7 @@
     "E": "http://www.google.uk",
     "F": "http://test.com",
     "G": "http://foo.com",
-    "H": "http://bar.com"
+    "H": "http://bar.com",
+    "I": "http://youtube.com"
   }
 }

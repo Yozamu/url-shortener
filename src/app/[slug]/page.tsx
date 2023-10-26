@@ -1,15 +1,22 @@
-import { redirect } from 'next/navigation';
+'use client';
 
-const SlugPage = async ({ params }: { params: { slug: string } }) => {
+import { useRouter } from 'next/navigation';
+
+const SlugPage = ({ params }: { params: { slug: string } }) => {
+  const router = useRouter();
   const { slug } = params;
-  try {
-    const response = await fetch(`/api/shorturl/${slug}`);
-    if (response.redirected) {
-      redirect(response.url);
-    }
-  } catch (_e) {
-    redirect('/');
-  }
+
+  fetch(`api/shorturl/${slug}`)
+    .then((response) => {
+      console.log(response);
+      if (response.status === 308) {
+        return response.json();
+      }
+    })
+    .then((json) => {
+      router.push(json.url);
+    })
+    .catch((_e) => router.push('/'));
 
   return null;
 };
