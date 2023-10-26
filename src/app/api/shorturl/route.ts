@@ -1,7 +1,34 @@
+import commonHelper from '@/utils/commonHelper';
+import { readFileSync, writeFileSync } from 'fs';
+import path from 'path';
+
 export async function POST(request: Request) {
   const body = await request.json();
   const { url } = body;
 
-  const res = Response.json({ message: `TODO shrink ${url}` });
-  return res;
+  // Verify RFC 7230 compliance
+  const isUrlValid = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(url);
+  if (!isUrlValid) {
+    return new Response(JSON.stringify({ error: 'invalid URL' }), { status: 400 });
+  }
+
+  try {
+    const filePath = path.join(process.cwd(), 'src', 'data', 'urls.json');
+    const data = readFileSync(filePath, 'utf-8');
+    const jsonData = JSON.parse(data);
+
+    // Update data by inserting new URL match and updating next sequence
+    const shortUrl = jsonData.currentUrl;
+    jsonData.urls[shortUrl] = url;
+    jsonData.currentUrl = commonHelper.getNextShortenedUrl(shortUrl);
+
+    const updatedData = JSON.stringify(jsonData, null, 2);
+    writeFileSync(filePath, updatedData, 'utf-8');
+
+    return Response.json({ originalUrl: url, shortUrl });
+  } catch (error) {
+    return new Response(JSON.stringify({ message: `Une erreur s'est produite: ${(error as Error).message}` }), {
+      status: 500,
+    });
+  }
 }
