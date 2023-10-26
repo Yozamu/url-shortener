@@ -5,8 +5,13 @@ const ShrinkerForm = () => {
   const [inputUrl, setInputUrl] = useState('');
 
   const handleButtonClick = () => {
-    // TODO handle click
-    alert(inputUrl);
+    fetch('/api/shorturl', { body: JSON.stringify({ url: inputUrl }), method: 'POST' })
+      .then((res) => {
+        if (res.status === 200) console.log('OK');
+        else console.log('KO');
+        return res.json();
+      })
+      .then((json) => console.log(json));
   };
 
   return (
