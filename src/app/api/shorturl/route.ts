@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   const { url } = body;
 
   // Verify RFC 7230 compliance
-  const isUrlValid = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(url);
+  const isUrlValid = commonHelper.isUrlValid(url);
   if (!isUrlValid) {
     return new Response(JSON.stringify({ error: 'invalid URL' }), { status: 400 });
   }
