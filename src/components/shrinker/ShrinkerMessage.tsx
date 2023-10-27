@@ -13,8 +13,8 @@ const ShrinkerMessage = () => {
     message.status === 'success' ? 'bg-success-background text-success-text' : 'bg-error-background text-error-text';
 
   return (
-    <div className={`w-full flex rounded-sm px-4 py-2 gap-2 ${messageColors}`}>
-      <div>{message.content}</div>
+    <div data-testId="message-container" className={`w-full flex rounded-sm px-4 py-2 gap-2 ${messageColors}`}>
+      <div data-testId="message-content">{message.content}</div>
       {shortUrl && (
         <a className="underline" href={`/${shortUrl}`}>
           {displayedUrl}
