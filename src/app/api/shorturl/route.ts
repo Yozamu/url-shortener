@@ -2,6 +2,15 @@ import commonHelper from '@/utils/commonHelper';
 import { readFileSync, writeFileSync } from 'fs';
 import path from 'path';
 
+export const computeShortUrlAndUpdatedData = (data: string, url: string) => {
+  const jsonData = JSON.parse(data);
+  // Update data by inserting new URL match and updating next sequence
+  const shortUrl = jsonData.currentUrl;
+  jsonData.urls[shortUrl] = url;
+  jsonData.currentUrl = commonHelper.getNextShortenedUrl(shortUrl);
+  return [shortUrl, JSON.stringify(jsonData, null, 2)];
+};
+
 export async function POST(request: Request) {
   const body = await request.json();
   const { url } = body;
@@ -15,14 +24,7 @@ export async function POST(request: Request) {
   try {
     const filePath = path.join(process.cwd(), 'src', 'data', 'urls.json');
     const data = readFileSync(filePath, 'utf-8');
-    const jsonData = JSON.parse(data);
-
-    // Update data by inserting new URL match and updating next sequence
-    const shortUrl = jsonData.currentUrl;
-    jsonData.urls[shortUrl] = url;
-    jsonData.currentUrl = commonHelper.getNextShortenedUrl(shortUrl);
-
-    const updatedData = JSON.stringify(jsonData, null, 2);
+    const [shortUrl, updatedData] = computeShortUrlAndUpdatedData(data, url);
     writeFileSync(filePath, updatedData, 'utf-8');
 
     return Response.json({ originalUrl: url, shortUrl });
