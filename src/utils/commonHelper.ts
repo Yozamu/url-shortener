@@ -28,7 +28,7 @@ export default (() => {
     return newUrl.join('');
   };
 
-  const isUrlValid = (url: string) => /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/.test(url);
+  const isUrlValid = (url: string) => /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*\.[^\s.]+[^\s/?#]+$/.test(url);
 
   return {
     getNextShortenedUrl,
